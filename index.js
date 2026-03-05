@@ -123,8 +123,8 @@ const baseRules = {
   'no-useless-escape': 'warn',
   'no-useless-catch': 'warn',
   
-  'config-eslint-kysune/class-transformer-decorators-first': 'warn',
-  'config-eslint-kysune/switch-case-padding': 'error',
+  'kysune/class-transformer-decorators-first': 'warn',
+  'kysune/switch-case-padding': 'error',
 };
 
 /**
@@ -133,54 +133,46 @@ const baseRules = {
  * @returns {Object} An ESLint configuration object containing namespaced rules, configs, and plugins.
  * @example
  * // eslint.config.js
- * const eslintConfig = require('@kysune/eslint-config-kysune');
- * module.exports = eslintConfig(['typescript', 'vue']).configs.recommended;
+ * const eslintConfig = require('@kysune/eslint-config');
+ * module.exports = eslintConfig(['typescript', 'vue']);
  */
 module.exports = (stack) => {
   if (!Array.isArray(stack)) stack = [];
 
-  const result = {
-    name: 'config-eslint-kysune',
-
-    rules: plugin.rules,
-    
-    configs: {
-      recommended: [
-        {
-          ignores: [
-            '.nuxt/**/*',
-            'dist/**/*',
-          ],
-        },
-        
-        {
-          languageOptions: {
-            globals: {
-              ...GlobalsNode,
-            },
-          },
-        },
-        
-        {
-          files: ['*.js', '**/*.js'],
-
-          plugins: {
-            'config-eslint-kysune': plugin,
-          },
-      
-          rules: {
-            ...baseRules,
-          },
-        },
+  const result = [
+    {
+      ignores: [
+        '.nuxt/**/*',
+        'dist/**/*',
       ],
     },
-  };
+    
+    {
+      languageOptions: {
+        globals: {
+          ...GlobalsNode,
+        },
+      },
+    },
+    
+    {
+      files: ['*.js', '**/*.js'],
+
+      plugins: {
+        'kysune': plugin,
+      },
+  
+      rules: {
+        ...baseRules,
+      },
+    },
+  ];
 
   for (const tech of stack) {
     switch (tech) {
       case 'ts':
       case 'typescript': {
-        result.configs.recommended.push({
+        result.push({
           files: ['*.ts', '**/*.ts'],
           
           languageOptions: {
@@ -189,7 +181,7 @@ module.exports = (stack) => {
 
           plugins: {
             '@typescript-eslint': require('@typescript-eslint/eslint-plugin'),
-            'config-eslint-kysune': plugin,
+            'kysune': plugin,
           },
       
           rules: {
@@ -223,7 +215,7 @@ module.exports = (stack) => {
       }
         
       case 'vue': {
-        result.configs.recommended.push({
+        result.push({
           files: ['*.vue', '**/*.vue'],
 
           languageOptions: {
@@ -231,7 +223,7 @@ module.exports = (stack) => {
           },
 
           plugins: {
-            'config-eslint-kysune': plugin,
+            'kysune': plugin,
           },
 
           rules: {
@@ -242,7 +234,7 @@ module.exports = (stack) => {
       }
         
       default:
-        throw new Error(`Unsupported tech "${tech}"`);
+        throw new Error(`Unsupported technology "${tech}"`);
     }
   }
   
