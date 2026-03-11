@@ -1,5 +1,6 @@
 'use strict';
 const { node: GlobalsNode } = require('globals');
+const TypeScriptParser = require('@typescript-eslint/parser');
 
 const plugin = {
   rules: {
@@ -176,7 +177,7 @@ module.exports = (stack) => {
           files: ['*.ts', '**/*.ts'],
           
           languageOptions: {
-            parser: require('@typescript-eslint/parser'),
+            parser: TypeScriptParser,
           },
 
           plugins: {
@@ -219,7 +220,10 @@ module.exports = (stack) => {
           files: ['*.vue', '**/*.vue'],
 
           languageOptions: {
-              parser: require('vue-eslint-parser'),
+            parser: require('vue-eslint-parser'),
+            parserOptions: {
+              parser: TypeScriptParser,
+            },
           },
 
           plugins: {
