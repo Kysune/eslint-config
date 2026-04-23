@@ -188,6 +188,7 @@ module.exports = (stack) => {
           rules: {
             ...baseRules,
             'no-dupe-class-members': 'off',
+            'no-redeclare': 'off',
 
             '@typescript-eslint/no-dupe-class-members': 'error',
             '@typescript-eslint/ban-ts-comment': 'error',
