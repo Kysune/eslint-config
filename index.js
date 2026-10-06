@@ -143,8 +143,9 @@ module.exports = (stack) => {
   const result = [
     {
       ignores: [
-        '.nuxt/**/*',
         'dist/**/*',
+        '.output/**/*',
+        '.nuxt/**/*',
       ],
     },
     
